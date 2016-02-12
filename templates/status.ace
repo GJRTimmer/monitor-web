@@ -6,14 +6,20 @@
 
   div.row
   {{range .Status}}
-    div.col-xs-6.col-sm-4.col-md-3
-      div.thumbnail
-        ul.list-group
-          li.list-group-item <a href={{URL "status"}}/{{.Name}}>{{.Name}}</a>
-          {{range .Versions}}
-          li.list-group-item {{.Service.Version}}: {{.Status}}
-            {{if .Info}}
-            br Info: {{.Info}}
-            {{end}}
+  div.col-xs-6.col-sm-4.col-md-3
+    div.thumbnail
+      div.caption 
+        a href={{URL "status"}}/{{.Name}} {{.Name}}
+      table.table.table-bordered
+        tbody
+        {{range .Versions}}
+          tr
+            th {{.Service.Version}}
+            td {{.Status}}
+          {{if .Info}}
+          tr
+            th Info
+            td {{.Info}}
           {{end}}
+        {{end}}
   {{end}}

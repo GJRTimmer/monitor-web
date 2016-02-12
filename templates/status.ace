@@ -1,0 +1,19 @@
+= content title
+  | Status
+= content main
+  h1 Status
+  hr
+
+  div.row
+  {{range .Status}}
+    div.col-xs-6.col-sm-4.col-md-3
+      div.thumbnail
+        ul.list-group
+          li.list-group-item <a href={{URL "status"}}/{{.Name}}>{{.Name}}</a>
+          {{range .Versions}}
+          li.list-group-item {{.Service.Version}}: {{.Status}}
+            {{if .Info}}
+            br Info: {{.Info}}
+            {{end}}
+          {{end}}
+  {{end}}

@@ -12,7 +12,7 @@ import (
 	"golang.org/x/net/context"
 
 	proto "github.com/micro/go-platform/monitor/proto"
-	"github.com/micro/monitor-srv/proto/monitor"
+	monitor "github.com/micro/monitor-srv/proto/monitor"
 )
 
 var (

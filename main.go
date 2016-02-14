@@ -13,7 +13,7 @@ import (
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/cmd"
 	"github.com/micro/go-micro/registry"
-	"github.com/micro/monitor-srv/proto/monitor"
+	monitor "github.com/micro/monitor-srv/proto/monitor"
 	"github.com/micro/monitor-web/handler"
 	"github.com/pborman/uuid"
 )

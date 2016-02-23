@@ -16,15 +16,15 @@ import (
 )
 
 var (
-	templateDir = "templates"
-	opts        *ace.Options
-
-	MonitorClient monitor.MonitorClient
+	opts          *ace.Options
+	monitorClient monitor.MonitorClient
 )
 
-func init() {
+func Init(dir string, m monitor.MonitorClient) {
+	monitorClient = m
+
 	opts = ace.InitializeOptions(nil)
-	opts.BaseDir = templateDir
+	opts.BaseDir = dir
 	opts.DynamicReload = true
 	opts.FuncMap = template.FuncMap{
 		"TimeAgo": func(t int64) string {
@@ -58,7 +58,7 @@ func render(w http.ResponseWriter, r *http.Request, tmpl string, data map[string
 
 // The index page
 func Index(w http.ResponseWriter, r *http.Request) {
-	rsp, err := MonitorClient.Services(context.TODO(), &monitor.ServicesRequest{})
+	rsp, err := monitorClient.Services(context.TODO(), &monitor.ServicesRequest{})
 	if err != nil {
 		http.Redirect(w, r, "/", 302)
 		return
@@ -107,7 +107,7 @@ func Service(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: limit/offset
-	rsp, err := MonitorClient.Services(context.TODO(), &monitor.ServicesRequest{
+	rsp, err := monitorClient.Services(context.TODO(), &monitor.ServicesRequest{
 		Service: service,
 	})
 	if err != nil {
@@ -115,7 +115,7 @@ func Service(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hrsp, err := MonitorClient.HealthChecks(context.TODO(), &monitor.HealthChecksRequest{
+	hrsp, err := monitorClient.HealthChecks(context.TODO(), &monitor.HealthChecksRequest{
 		Service: service,
 	})
 	if err != nil {
@@ -123,7 +123,7 @@ func Service(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	srsp, err := MonitorClient.Status(context.TODO(), &monitor.StatusRequest{
+	srsp, err := monitorClient.Status(context.TODO(), &monitor.StatusRequest{
 		Service: service,
 	})
 	if err != nil {
@@ -131,7 +131,7 @@ func Service(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	trsp, err := MonitorClient.Stats(context.TODO(), &monitor.StatsRequest{
+	trsp, err := monitorClient.Stats(context.TODO(), &monitor.StatsRequest{
 		Service: service,
 	})
 	if err != nil {
@@ -207,7 +207,7 @@ func ServiceStatus(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rsp, err := MonitorClient.Status(context.TODO(), &monitor.StatusRequest{
+	rsp, err := monitorClient.Status(context.TODO(), &monitor.StatusRequest{
 		Service: service,
 		Verbose: true,
 	})
@@ -248,7 +248,7 @@ func ServiceStats(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: limit/offset
-	rsp, err := MonitorClient.Stats(context.TODO(), &monitor.StatsRequest{
+	rsp, err := monitorClient.Stats(context.TODO(), &monitor.StatsRequest{
 		Service: service,
 	})
 	if err != nil {
@@ -298,7 +298,7 @@ func ServiceStats(w http.ResponseWriter, r *http.Request) {
 
 func Stats(w http.ResponseWriter, r *http.Request) {
 	// TODO: limit/offset
-	rsp, err := MonitorClient.Stats(context.TODO(), &monitor.StatsRequest{})
+	rsp, err := monitorClient.Stats(context.TODO(), &monitor.StatsRequest{})
 	if err != nil {
 		http.Redirect(w, r, "/", 302)
 		return
@@ -350,7 +350,7 @@ func Stats(w http.ResponseWriter, r *http.Request) {
 }
 
 func Status(w http.ResponseWriter, r *http.Request) {
-	rsp, err := MonitorClient.Status(context.TODO(), &monitor.StatusRequest{})
+	rsp, err := monitorClient.Status(context.TODO(), &monitor.StatusRequest{})
 	if err != nil {
 		http.Redirect(w, r, "/", 302)
 		return
@@ -387,7 +387,7 @@ func Status(w http.ResponseWriter, r *http.Request) {
 
 func Healthchecks(w http.ResponseWriter, r *http.Request) {
 	// TODO: limit/offset
-	rsp, err := MonitorClient.HealthChecks(context.TODO(), &monitor.HealthChecksRequest{})
+	rsp, err := monitorClient.HealthChecks(context.TODO(), &monitor.HealthChecksRequest{})
 	if err != nil {
 		http.Redirect(w, r, "/", 302)
 		return
@@ -424,7 +424,7 @@ func Healthcheck(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: limit/offset
-	rsp, err := MonitorClient.HealthChecks(context.TODO(), &monitor.HealthChecksRequest{
+	rsp, err := monitorClient.HealthChecks(context.TODO(), &monitor.HealthChecksRequest{
 		Id: id,
 	})
 	if err != nil {

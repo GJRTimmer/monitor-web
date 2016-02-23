@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/mux"
 	proto "github.com/micro/go-platform/monitor/proto"
 )
 
@@ -94,4 +95,18 @@ func hostPath(r *http.Request) string {
 		return path
 	}
 	return "/"
+}
+
+func Router() http.Handler {
+	r := mux.NewRouter()
+	r.HandleFunc("/", Index)
+	r.HandleFunc("/healthchecks", Healthchecks)
+	r.HandleFunc("/healthchecks/{id}", Healthcheck)
+	r.HandleFunc("/stats", Stats)
+	r.HandleFunc("/stats/{service}", ServiceStats)
+	r.HandleFunc("/status", Status)
+	r.HandleFunc("/status/{service}", ServiceStatus)
+	r.HandleFunc("/services", Index)
+	r.HandleFunc("/services/{service}", Service)
+	return r
 }

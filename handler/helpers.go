@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	proto "github.com/micro/go-platform/monitor/proto"
+	proto "github.com/micro/go-os/monitor/proto"
 )
 
 var (

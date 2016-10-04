@@ -11,7 +11,7 @@ import (
 	"github.com/yosssi/ace"
 	"golang.org/x/net/context"
 
-	proto "github.com/micro/go-platform/monitor/proto"
+	proto "github.com/micro/go-os/monitor/proto"
 	monitor "github.com/micro/monitor-srv/proto/monitor"
 )
 

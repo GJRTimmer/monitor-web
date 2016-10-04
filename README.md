@@ -1,6 +1,6 @@
 # Monitor Web
 
-The monitor web is a dashboard for the platform monitor-srv. 
+The monitor web is a dashboard for the monitor service. 
 
 ## Getting started
 
